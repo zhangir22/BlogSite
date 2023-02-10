@@ -1,0 +1,50 @@
+﻿@model List<SwaggerBlogSite.Models.BlogModels.Blog>
+
+@{
+
+    ViewBag.Title = "Index";
+    int userId = 0;
+    using (SwaggerBlogSite.Models.db.Context db = new SwaggerBlogSite.Models.db.Context())
+    {
+        userId = db.users.FirstOrDefault(u => u.Email == User.Identity.Name).Id;
+    }
+
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateBlog", new { userId = userId })
+</p>
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+               Body
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditBlog", new {blogId =item.Id }) |
+                    @Html.ActionLink("Delete", "DeleteBlog", new { blogId = item.Id})
+                </td>
+            </tr>
+        }
+
+    </table>
+
+}
